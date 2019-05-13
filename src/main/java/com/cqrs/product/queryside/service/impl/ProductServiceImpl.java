@@ -2,6 +2,7 @@ package com.cqrs.product.queryside.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import com.cqrs.product.queryside.bean.CreateproductReq;
 import com.cqrs.product.queryside.bean.Order;
 import com.cqrs.product.queryside.bean.ProductQueue;
 import com.cqrs.product.queryside.constant.OrderConstant;
+import com.cqrs.product.queryside.exception.ProductException;
 import com.cqrs.product.queryside.repository.OrderRepository;
 import com.cqrs.product.queryside.repository.ProductQueueRepository;
 import com.cqrs.product.queryside.repository.ProductRepository;
@@ -68,7 +70,10 @@ public class ProductServiceImpl implements IProductService{
 		List<ProductQueue> product = productQueueRepository.findAll();
 		return product;
 	}
-
+	
+	/**
+	 * This method will fetch all products from query side db 
+	 */
 	@Override
 	public List<CreateproductReq> viewProducts(Environment env) {
 		logger.info("View Products DB call start");
@@ -80,6 +85,28 @@ public class ProductServiceImpl implements IProductService{
 
         return productList;
 	}
+	
+	 /**
+     * This method is used for view single entry of active product based on skuCode.
+     * 
+     * @param accessToken
+     * @param skuCode
+     * @return List<CreateproductReq>
+     * @throws ProductException
+     */
+    @Override
+    public List<CreateproductReq> viewproductbyskuCode(String skuCode, Environment env) throws ProductException {
+    	logger.info("View ProductBySkuCode DB call start");
+        List<CreateproductReq> productList = new ArrayList<CreateproductReq>();
+        if (null != skuCode) {
+	        Optional<CreateproductReq> product = productRespository.findById(skuCode);
+	        if (product.isPresent()) {
+	            productList.add(product.get());
+	        }
+        }
+        logger.info("View ProductBySkuCode DB call end");
+        return productList;
+    }
 
 	@Override
 	public List<Order> getAllOrders() {

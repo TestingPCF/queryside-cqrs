@@ -17,6 +17,8 @@ public interface IProductService {
 	
 	List<ProductQueue> getAllProduct();
 	
+	public List<CreateproductReq> viewproductbyskuCode(String skuCode, Environment env);
+	
 	void addOrder(Order orderData);
 
 	List<CreateproductReq> viewProducts(Environment env);

@@ -8,6 +8,7 @@ applications:
   services:
   - worker-mq
   - cqrs-queryDB
+  - log-drain
   routes:
     - route: cqrs-queryside.apps.sandbox.cflab01.in.hclcnlabs.com  
   instances: 1
