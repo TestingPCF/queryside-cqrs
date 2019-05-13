@@ -53,14 +53,10 @@ public class ProductQueryController {
 	
 	@RabbitListener(queues = RabbitmqConfigProduct.QUEUE_SPECIFIC_NAME)
     public void receiveMessage(CreateproductReq productData) {
-		//CustomMessageBean customMessageBean=(CustomMessageBean) jackson2JsonMessageConverter.fromMessage(customMessage);
-    	//System.out.println("Received message from Listener from Controller {} "+ customMessage.toString());
-		logger.info("Inside receiveMessage...");
-		//CreateproductReq productData = new CreateproductReq();
-		//BeanUtils.copyProperties(productData, productBean);
-		logger.info("Bean has neem copied... "+productData.getProductName());
+		logger.info("Queues message received...");
+		logger.info("Product name in received message is... "+productData.getProductName());
 		productService.addProduct(productData);
-		logger.info("Outside receiveMessage...");
+		logger.info("receiveMessage call end");
     }
 	
 	/*@RabbitListener(queues = RabbitmqConfigOrder.QUEUE_SPECIFIC_NAME)
