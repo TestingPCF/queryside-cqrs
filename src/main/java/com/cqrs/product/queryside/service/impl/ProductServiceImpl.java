@@ -11,11 +11,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.cqrs.product.queryside.bean.CreateproductReq;
-import com.cqrs.product.queryside.bean.Order;
 import com.cqrs.product.queryside.bean.ProductQueue;
-import com.cqrs.product.queryside.constant.OrderConstant;
 import com.cqrs.product.queryside.exception.ProductException;
-import com.cqrs.product.queryside.repository.OrderRepository;
 import com.cqrs.product.queryside.repository.ProductQueueRepository;
 import com.cqrs.product.queryside.repository.ProductRepository;
 import com.cqrs.product.queryside.service.IProductService;
@@ -31,29 +28,10 @@ public class ProductServiceImpl implements IProductService{
 	@Autowired
 	private ProductRepository productRespository;
 	
-	@Autowired
-	private OrderRepository orderRespository;
-
-	/*@Override
-	public void addProduct(ProductMessageBean customMessage) {
-		logger.info("Inside addProduct...");
-		ProductQueue product = new ProductQueue();
-		product.setName(customMessage.getName());
-		product.setSkuCode(customMessage.getSkuCode());
-		productReposetory.save(product);
-		logger.info("Product - "+ product.getName() + " save successfully...");
-	}*/
-	
 	@Override
 	public void addProduct(CreateproductReq productData) {
 		productRespository.save(productData);
 		logger.info("Product - "+ productData.getProductName() + " save successfully...");
-	}
-	
-	@Override
-	public void addOrder(Order orderData) {
-		orderRespository.save(orderData);
-		logger.info("Order - "+ orderData.getOrderId() + " save successfully...");
 	}
 	
 	@Override
@@ -89,7 +67,6 @@ public class ProductServiceImpl implements IProductService{
 	 /**
      * This method is used for view single entry of active product based on skuCode.
      * 
-     * @param accessToken
      * @param skuCode
      * @return List<CreateproductReq>
      * @throws ProductException
@@ -108,9 +85,4 @@ public class ProductServiceImpl implements IProductService{
         return productList;
     }
 
-	@Override
-	public List<Order> getAllOrders() {
-		logger.info(OrderConstant.INPROGRES + OrderConstant.ORDER_GETALL_INFO);
-		return orderRespository.findAll();
-	}
 }

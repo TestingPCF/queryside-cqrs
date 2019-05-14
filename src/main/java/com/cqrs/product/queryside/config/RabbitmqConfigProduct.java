@@ -1,5 +1,7 @@
 package com.cqrs.product.queryside.config;
 
+import com.cqrs.product.queryside.constant.CartConstant;
+import com.cqrs.product.queryside.constant.ProductConstants;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Message;
@@ -15,26 +17,35 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitmqConfigProduct {
-	public static final String EXCHANGE_NAME = "productMQ";
-	
-	public static final String ROUTING_KEY = "productPOC";
-	
-	public static final String QUEUE_SPECIFIC_NAME = "productQueue";
 
-	
 	@Bean
 	public TopicExchange mqExchange() {
-		return new TopicExchange(EXCHANGE_NAME);
+		return new TopicExchange(ProductConstants.EXCHANGE_NAME);
 	}
 
 	@Bean
 	public Queue appQueueSpecific() {
-		return new Queue(QUEUE_SPECIFIC_NAME);
+		return new Queue(ProductConstants.QUEUE_SPECIFIC_NAME);
 	}
 
 	@Bean
 	public Binding declareBindingSpecific() {
-		return BindingBuilder.bind(appQueueSpecific()).to(mqExchange()).with(ROUTING_KEY);
+		return BindingBuilder.bind(appQueueSpecific()).to(mqExchange()).with(ProductConstants.ROUTING_KEY);
+	}
+
+	@Bean
+	public TopicExchange mqCartExchange() {
+		return new TopicExchange(CartConstant.EXCHANGE_NAME_CART);
+	}
+
+	@Bean
+	public Queue appCartQueueSpecific() {
+		return new Queue(CartConstant.QUEUE_SPECIFIC_NAME_CART);
+	}
+
+	@Bean
+	public Binding declareBindingSpecificCart() {
+		return BindingBuilder.bind(appCartQueueSpecific()).to(mqCartExchange()).with(CartConstant.ROUTING_KEY_CART);
 	}
 
 	@Bean

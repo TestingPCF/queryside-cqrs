@@ -2,13 +2,13 @@
 applications:
 - name: cqrs-queryside
   path: ./target/product-query-side-0.0.1-SNAPSHOT.jar
-  memory: 1G
   random-route: true
   buildpack: java_buildpack_offline
   services:
   - worker-mq
   - cqrs-queryDB
   - log-drain
+  - appdynamics
   routes:
     - route: cqrs-queryside.apps.sandbox.cflab01.in.hclcnlabs.com  
   instances: 1

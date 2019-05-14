@@ -10,8 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cqrs.product.queryside.bean.CreateproductReq;
 import com.cqrs.product.queryside.bean.ProductQueue;
-import com.cqrs.product.queryside.config.RabbitmqConfigProduct;
 import com.cqrs.product.queryside.constant.ProductConstants;
 import com.cqrs.product.queryside.datatranslator.ViewProductbySkuCodeResponseTranslator;
 import com.cqrs.product.queryside.datatranslator.ViewProductsResponseTranslator;
@@ -47,32 +44,13 @@ public class ProductQueryController {
 	@Autowired
 	Environment env;
 	
-	/*@RabbitListener(queues = RabbitmqConfig.QUEUE_SPECIFIC_NAME)
-    public void receiveMessage(ProductMessageBean customMessage) {
-		logger.info("Inside receiveMessage...");
-		productService.addProduct(customMessage);
-		logger.info("Outside receiveMessage...");
-    }*/
-	
-	@RabbitListener(queues = RabbitmqConfigProduct.QUEUE_SPECIFIC_NAME)
+	@RabbitListener(queues = ProductConstants.QUEUE_SPECIFIC_NAME)
     public void receiveMessage(CreateproductReq productData) {
 		logger.info("Queues message received...");
 		logger.info("Product name in received message is... "+productData.getProductName());
 		productService.addProduct(productData);
 		logger.info("receiveMessage call end");
     }
-	
-	/*@RabbitListener(queues = RabbitmqConfigOrder.QUEUE_SPECIFIC_NAME)
-    public void receiveOrderMessage(Order orderData) {
-		//CustomMessageBean customMessageBean=(CustomMessageBean) jackson2JsonMessageConverter.fromMessage(customMessage);
-    	//System.out.println("Received message from Listener from Controller {} "+ customMessage.toString());
-		logger.info("Inside receiveMessage...");
-		//CreateproductReq productData = new CreateproductReq();
-		//BeanUtils.copyProperties(productData, productBean);
-		logger.info("User Email in order... "+orderData.getUserEmail());
-		productService.addOrder(orderData);
-		logger.info("Outside receiveMessage...");
-    }*/
 	
 	@CrossOrigin("*")
 	@GetMapping("/productInfo/{skuCode}")

@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.cqrs.product.queryside.bean.Order;
 import com.cqrs.product.queryside.bean.Response;
 import com.cqrs.product.queryside.bean.Status;
 
@@ -24,36 +23,6 @@ public final class ResponseUtil {
      */
     private ResponseUtil(final Object obj) {
         System.out.println(obj);
-    }
-
-    /**
-     * This method will prepare a ResponseEntity and return the same.
-     *
-     * @param httpStatus     http Status
-     * @param responseString response String
-     * @param data           data
-     * @return ResponseEntity entity object
-     */
-    public static ResponseEntity getResponseEntity(
-            final HttpStatus httpStatus,
-            final String responseString,
-            final Object data) {
-        Status status = new Status(httpStatus,
-                responseString);
-        Response<Order> response = null;
-        if (data instanceof Collection) {
-            List<Order> orderList = (List<Order>) data;
-            response = new Response.Builder<Order>(status)
-                    .setCollection(orderList).build();
-        } else {
-            Order order = (Order) data;
-            response = new Response.Builder<Order>(status)
-                    .setEntity(order)
-                    .build();
-        }
-
-        return new ResponseEntity<Response<Order>>(response,
-                httpStatus);
     }
 
     /**

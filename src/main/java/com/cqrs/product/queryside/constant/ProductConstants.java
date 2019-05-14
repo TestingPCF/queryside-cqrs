@@ -22,6 +22,8 @@ public class ProductConstants {
     public static final String COMMAND_KEY_IDENTIFIER = "Command.";
     public static final String COLLAPSER = "Collapser";
     public static final String INVENTORY_URL = "http://inventory.apps.sandbox.cflab01.in.hclcnlabs.com/inventory";
-            
+    public static final String EXCHANGE_NAME = "productMQ";
+    public static final String ROUTING_KEY = "productPOC";
+    public static final String QUEUE_SPECIFIC_NAME = "productQueue";
 
 }
