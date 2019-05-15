@@ -3,7 +3,6 @@ package com.cqrs.product.queryside.controller;
 import com.cqrs.product.queryside.bean.Cart;
 import com.cqrs.product.queryside.exception.CustomException;
 import com.cqrs.product.queryside.response.CartService;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,8 +15,6 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.springframework.http.HttpStatus;
-
-import java.io.IOException;
 
 @RunWith(value = PowerMockRunner.class)
 @PrepareForTest({HttpStatus.class})
