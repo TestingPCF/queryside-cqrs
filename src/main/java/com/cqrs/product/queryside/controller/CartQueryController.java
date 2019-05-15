@@ -19,15 +19,29 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 
+/**
+ * CartQueryController this is controller class which works on cart requests.
+ * @author baghelp || shikhar.a
+ */
 @RequestMapping("/query/cart")
 @RestController
 public class CartQueryController {
-
+    /**
+     * logger.
+     */
     public static final Logger logger= LoggerFactory.getLogger(CartQueryController.class);
-
+    /**
+     * cartService.
+     */
     @Autowired
     CartService cartService;
 
+    /**
+     * This method listen to CartConstant.QUEUE_SPECIFIC_NAME_CART
+     * queue and performs operation based on event.
+     * @param cartData cartData
+     * @throws Exception
+     */
     @RabbitListener(queues = CartConstant.QUEUE_SPECIFIC_NAME_CART)
     public void receiveMessage(Cart cartData) throws Exception {
         logger.info("Queues message received..." + cartData);
@@ -39,8 +53,8 @@ public class CartQueryController {
 
     /**
      * Method to get cart details.
-     * @param authToken
-     * @return
+     * @param authToken authToken
+     * @return ResponseEntity
      */
     @GetMapping
     public ResponseEntity<ResponseStatus<?>> getCart(
