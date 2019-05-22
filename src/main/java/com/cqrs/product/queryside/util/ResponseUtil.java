@@ -1,14 +1,5 @@
 package com.cqrs.product.queryside.util;
 
-import java.util.Collection;
-import java.util.List;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
-import com.cqrs.product.queryside.bean.Response;
-import com.cqrs.product.queryside.bean.Status;
-
 /**
  * This is a utility class which can be used to prepare a Http response entity.
  *

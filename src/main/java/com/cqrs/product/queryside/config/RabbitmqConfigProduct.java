@@ -1,7 +1,5 @@
 package com.cqrs.product.queryside.config;
 
-import com.cqrs.product.queryside.constant.CartConstant;
-import com.cqrs.product.queryside.constant.ProductConstants;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Message;
@@ -13,6 +11,9 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConversionException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import com.cqrs.product.queryside.constant.CartConstant;
+import com.cqrs.product.queryside.constant.ProductConstants;
 
 
 @Configuration

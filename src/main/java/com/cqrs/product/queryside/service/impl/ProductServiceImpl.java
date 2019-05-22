@@ -11,9 +11,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import com.cqrs.product.queryside.bean.CreateproductReq;
-import com.cqrs.product.queryside.bean.ProductQueue;
 import com.cqrs.product.queryside.exception.ProductException;
-import com.cqrs.product.queryside.repository.ProductQueueRepository;
 import com.cqrs.product.queryside.repository.ProductRepository;
 import com.cqrs.product.queryside.service.IProductService;
 
@@ -22,31 +20,17 @@ public class ProductServiceImpl implements IProductService{
 
 	private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 	
-	@Autowired
-	private ProductQueueRepository productQueueRepository;
 	
 	@Autowired
 	private ProductRepository productRespository;
-	
+
+	/**
+	 * This method listen add product event from queue and persist inside query DB 
+	 */
 	@Override
 	public void addProduct(CreateproductReq productData) {
 		productRespository.save(productData);
 		logger.info("Product - "+ productData.getProductName() + " save successfully...");
-	}
-	
-	@Override
-	public ProductQueue getProduct(String skuCode) {
-		logger.info("Inside getProduct with skuCode - "+ skuCode);
-		ProductQueue product = productQueueRepository.findBySkuCode(skuCode);
-		logger.info("Product find - skuCode - "+ skuCode);
-		return product;
-	}
-
-	@Override
-	public List<ProductQueue> getAllProduct() {
-		logger.info("Inside gerAllProduct()...");
-		List<ProductQueue> product = productQueueRepository.findAll();
-		return product;
 	}
 	
 	/**

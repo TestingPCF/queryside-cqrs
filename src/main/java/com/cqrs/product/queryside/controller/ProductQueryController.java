@@ -14,17 +14,13 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cqrs.product.queryside.bean.CreateproductReq;
-import com.cqrs.product.queryside.bean.ProductQueue;
 import com.cqrs.product.queryside.constant.ProductConstants;
 import com.cqrs.product.queryside.datatranslator.ViewProductbySkuCodeResponseTranslator;
 import com.cqrs.product.queryside.datatranslator.ViewProductsResponseTranslator;
@@ -51,24 +47,6 @@ public class ProductQueryController {
 		productService.addProduct(productData);
 		logger.info("receiveMessage call end");
     }
-	
-	@CrossOrigin("*")
-	@GetMapping("/productInfo/{skuCode}")
-	@ResponseBody
-	public ProductQueue gerProduct(@PathVariable String skuCode){
-		logger.info("Inside controller gerProduct with skuCode - "+ skuCode);
-		ProductQueue products = productService.getProduct(skuCode);
-		return products;
-	}
-	
-	@CrossOrigin("*")
-	@GetMapping("/productInfo")
-	@ResponseBody
-	public List<ProductQueue> gerAllProduct(){
-		logger.info("Inside controller gerAllProduct()...");
-		List<ProductQueue> products = productService.getAllProduct();
-		return products;
-	}
 	
 	/**
      * This method is used for view all active products.
@@ -119,5 +97,20 @@ public class ProductQueryController {
         return ResponseEntity.ok().body(viewproductRes);
 
     }
+    
+    /**
+     * @param productService
+     */
+    public void setProductService(IProductService productService) {
+		this.productService = productService;
+	}
+
+	/**
+	 * @param env
+	 */
+	public void setEnv(Environment env) {
+		this.env = env;
+	}
+
 }
 	
