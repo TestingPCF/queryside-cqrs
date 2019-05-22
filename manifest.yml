@@ -8,8 +8,8 @@ applications:
   - worker-mq
   - cqrs-queryDB
   - log-drain
-  - appdynamics
+  - newrelic
   routes:
     - route: cqrs-queryside.apps.sandbox.cflab01.in.hclcnlabs.com  
   instances: 1
-  memory: 750M
+  memory: 1G
