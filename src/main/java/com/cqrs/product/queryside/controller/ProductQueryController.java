@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +30,7 @@ import com.cqrs.product.queryside.exception.ProductException;
 import com.cqrs.product.queryside.response.ViewproductRes;
 import com.cqrs.product.queryside.service.IProductService;
 
-
+@RefreshScope
 @RestController
 public class ProductQueryController {
 	
@@ -39,7 +41,10 @@ public class ProductQueryController {
 	
 	@Autowired
 	Environment env;
-	
+
+    @Value("${product.view.log}")
+    private String productViewLog;
+
 	@RabbitListener(queues = ProductConstants.QUEUE_SPECIFIC_NAME)
     public void receiveMessage(CreateproductReq productData) {
 		logger.info("Queues message received...");
@@ -58,7 +63,7 @@ public class ProductQueryController {
     @RequestMapping(value = "/products", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ViewproductRes> viewProducts(
             @RequestHeader(value = ProductConstants.ACCESS_TOKEN, required = true) String accessToken) throws ProductException {
-    	logger.info("viewProducts call start"); 
+    	logger.info(productViewLog);
     	logger.info("accessToken"+ accessToken);
         ViewProductsResponseTranslator vproductst = new ViewProductsResponseTranslator();
         ViewproductRes viewproductRes = null;

@@ -1,6 +1,6 @@
 ---
 applications:
-- name: cqrs-queryside
+- name: queryside-cqrs
   path: ./target/product-query-side-0.0.1-SNAPSHOT.jar
   random-route: true
   buildpack: java_buildpack_offline
@@ -9,7 +9,8 @@ applications:
   - cqrs-queryDB
   - log-drain
   - newrelic
+  - cloud-config-server
   routes:
-    - route: cqrs-queryside.apps.sandbox.cflab01.in.hclcnlabs.com  
+    - route: queryside-cqrs.apps.sandbox.cflab01.in.hclcnlabs.com
   instances: 1
   memory: 1G
