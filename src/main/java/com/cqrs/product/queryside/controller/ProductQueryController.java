@@ -64,7 +64,6 @@ public class ProductQueryController {
     public ResponseEntity<ViewproductRes> viewProducts(
             @RequestHeader(value = ProductConstants.ACCESS_TOKEN, required = true) String accessToken) throws ProductException {
     	logger.info(productViewLog);
-    	logger.info("accessToken"+ accessToken);
         ViewProductsResponseTranslator vproductst = new ViewProductsResponseTranslator();
         ViewproductRes viewproductRes = null;
 
