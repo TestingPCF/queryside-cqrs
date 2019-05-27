@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.cqrs.product.queryside.cache.ProductCacheManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,10 @@ import com.cqrs.product.queryside.service.IProductService;
 public class ProductServiceImpl implements IProductService{
 
 	private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
-	
-	
+
+	@Autowired
+	private ProductCacheManager productCacheManager;
+
 	@Autowired
 	private ProductRepository productRespository;
 
@@ -30,6 +33,7 @@ public class ProductServiceImpl implements IProductService{
 	@Override
 	public void addProduct(CreateproductReq productData) {
 		productRespository.save(productData);
+		productCacheManager.cacheProductDetails(productData);
 		logger.info("Product - "+ productData.getProductName() + " save successfully...");
 	}
 	
@@ -60,10 +64,22 @@ public class ProductServiceImpl implements IProductService{
     	logger.info("View ProductBySkuCode DB call start");
         List<CreateproductReq> productList = new ArrayList<CreateproductReq>();
         if (null != skuCode) {
-	        Optional<CreateproductReq> product = productRespository.findById(skuCode);
-	        if (product.isPresent()) {
-	            productList.add(product.get());
-	        }
+	        //[START] changing code for get from cache.
+			CreateproductReq productCached =
+					productCacheManager.getProductFromCache(skuCode);
+
+			if(productCached != null) {
+				logger.info("Product fetched from cache.");
+				productList.add(productCached);
+			} else {
+				//[END] changing code for get from cache.
+				logger.info("Product is not cached so making a db call.");
+				Optional<CreateproductReq> product =
+						productRespository.findById(skuCode);
+				if (product.isPresent()) {
+					productList.add(product.get());
+				}
+			}
         }
         logger.info("View ProductBySkuCode DB call end");
         return productList;
